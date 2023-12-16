@@ -121,11 +121,11 @@ const contagemRegressiva = function(){
         
         setTimeout(() => {
             zerar('Começar');
-        }, 6000);
+        }, 3000);
 
         setTimeout(() => {
             mostraTempo();
-        }, 6000);
+        }, 3000);
 
         
              
