@@ -12,6 +12,7 @@ const divTimer = document.querySelector('#timer');
 
 let intervaloID = null;
 let tempoDecorrido = 10;
+var contextoAtual='foco';
 
 const musica = new Audio('sons/luna-rise-part-one.mp3');
 const audioPlay = new Audio('sons/play.wav');
@@ -38,7 +39,7 @@ musicaFocoInput.addEventListener('change',()=>{
 
 
 
-for (const botao of Ltsbotoes) {
+/* for (const botao of Ltsbotoes) {
     botao.addEventListener('mouseover', () => {
         botao.classList.add('active');
     });
@@ -50,6 +51,18 @@ for (const botao of Ltsbotoes) {
         botao.classList.remove('active');
     });
 
+}
+ */
+
+focoBt.classList.add('active');
+
+function desfocar(){
+    for (const botao of Ltsbotoes) {
+       
+            botao.classList.remove('active');
+       
+    
+    }
 }
 
 
@@ -85,6 +98,13 @@ longoBt.addEventListener('click', () => {
 
 
 function alterarContexto(contexto){
+
+    if (intervaloID!=null){
+        alert("Pause a contagem primeiramente.");
+        return;
+    }
+
+
     html.setAttribute('data-contexto',contexto);
     banner.setAttribute('src',`imagens/${contexto}.png`);
 
@@ -92,19 +112,33 @@ function alterarContexto(contexto){
         case "foco":
             titulo.innerHTML = `Otimize sua produtividade,<br>
             <strong class="app__title-strong">mergulhe no que importa.</strong>`;
-
+            desfocar();
+            focoBt.classList.add('active');
+            contextoAtual='foco';
+            reiniciarTempoContexto();
+            
             break;
         case 'descanso-curto':
             titulo.innerHTML = `Que tal dar uma respirada?<br><strong class="app__title-strong">Faça uma pausa curta!</strong>`;           
-
+            desfocar();
+            curtoBt.classList.add('active');
+            
+            contextoAtual='descanso-curto';
+            reiniciarTempoContexto();
             break;
         case 'descanso-longo':
             titulo.innerHTML = `Hora de voltar à superfície.<br><strong class="app__title-strong">Faça uma pausa longa.</strong>`;           
-
+            desfocar();
+            longoBt.classList.add('active');
+    
+            contextoAtual='descanso-longo';
+            reiniciarTempoContexto();
             break;    
         default:
             break;
     }
+    zerar('Começar');
+    mostraTempo();
         
 }
 
@@ -113,7 +147,9 @@ const contagemRegressiva = function(){
     
     if (tempoDecorrido==0){
         clearInterval(intervaloID);
-        tempoDecorrido=10;
+        
+        reiniciarTempoContexto();
+
         musicaFocoInput.checked=false;
         musica.pause();
         audioBeep.play();
@@ -168,5 +204,31 @@ function zerar(estado){
 function mostraTempo(){
     divTimer.innerHTML = `${tempoDecorrido}`
 }
+
+
+function reiniciarTempoContexto(){
+
+    switch (contextoAtual) {
+        case "foco":
+
+            tempoDecorrido=10;
+            break;
+        case 'descanso-curto':
+
+            tempoDecorrido=3;
+
+            break;
+        case 'descanso-longo':
+
+            tempoDecorrido=25;
+
+            break;    
+        default:
+            break;
+    }
+}
+
+
+
 
 mostraTempo();
