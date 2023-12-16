@@ -8,9 +8,10 @@ const titulo = document.querySelector('.app__title');
 const musicaFocoInput = document.querySelector('#alternar-musica');
 const startPauseBT = document.querySelector('#start-pause');
 const iniciarOuPausarBT = document.querySelector('#start-pause span');
+const divTimer = document.querySelector('#timer');
 
 let intervaloID = null;
-let tempoDecorrido = 5;
+let tempoDecorrido = 10;
 
 const musica = new Audio('sons/luna-rise-part-one.mp3');
 const audioPlay = new Audio('sons/play.wav');
@@ -111,22 +112,28 @@ function alterarContexto(contexto){
 const contagemRegressiva = function(){
     
     if (tempoDecorrido==0){
-
-        tempoDecorrido=5;
+        clearInterval(intervaloID);
+        tempoDecorrido=10;
         musicaFocoInput.checked=false;
         musica.pause();
         audioBeep.play();
-        clearInterval(intervaloID);
+        
+        
         setTimeout(() => {
             zerar('Começar');
         }, 6000);
 
+        setTimeout(() => {
+            mostraTempo();
+        }, 6000);
+
+        
              
         return;
        
     }
     tempoDecorrido -=1;
-    console.log("Temporizador:" + tempoDecorrido);
+    mostraTempo();
     
 }
 
@@ -155,5 +162,11 @@ function zerar(estado){
     clearInterval(intervaloID);
     intervaloID=null;
     iniciarOuPausarBT.textContent = estado;
+
 }
 
+function mostraTempo(){
+    divTimer.innerHTML = `${tempoDecorrido}`
+}
+
+mostraTempo();
