@@ -12,27 +12,27 @@ const divTimer = document.querySelector('#timer');
 
 let intervaloID = null;
 let tempoDecorrido = 10;
-var contextoAtual='foco';
+var contextoAtual = 'foco';
 
 const musica = new Audio('sons/luna-rise-part-one.mp3');
 const audioPlay = new Audio('sons/play.wav');
 const audioPause = new Audio('sons/pause.mp3');
 const audioBeep = new Audio('sons/beep.mp3');
 
-musica.loop=true;
-audioBeep.loop=true;
+musica.loop = true;
+audioBeep.loop = true;
 
 
 
 
 
-musicaFocoInput.addEventListener('change',()=>{
-    if (musica.paused){
+musicaFocoInput.addEventListener('change', () => {
+    if (musica.paused) {
         musica.play();
-    }else{
+    } else {
         musica.pause();
     }
-    
+
 })
 
 
@@ -56,12 +56,12 @@ for (const botao of Ltsbotoes) {
 
 focoBt.classList.add('active');
 
-function desfocar(){
+function desfocar() {
     for (const botao of Ltsbotoes) {
-       
-            botao.classList.remove('active');
-       
-    
+
+        botao.classList.remove('active');
+
+
     }
 }
 
@@ -97,16 +97,16 @@ longoBt.addEventListener('click', () => {
 });
 
 
-function alterarContexto(contexto){
+function alterarContexto(contexto) {
 
-    if (intervaloID!=null){
-        alert("Pause a contagem primeiramente.");
+    if (intervaloID != null) {
+        alertar();
         return;
     }
 
 
-    html.setAttribute('data-contexto',contexto);
-    banner.setAttribute('src',`imagens/${contexto}.png`);
+    html.setAttribute('data-contexto', contexto);
+    banner.setAttribute('src', `imagens/${contexto}.png`);
 
     switch (contexto) {
         case "foco":
@@ -114,47 +114,47 @@ function alterarContexto(contexto){
             <strong class="app__title-strong">mergulhe no que importa.</strong>`;
             desfocar();
             focoBt.classList.add('active');
-            contextoAtual='foco';
+            contextoAtual = 'foco';
             reiniciarTempoContexto();
-            
+
             break;
         case 'descanso-curto':
-            titulo.innerHTML = `Que tal dar uma respirada?<br><strong class="app__title-strong">Faça uma pausa curta!</strong>`;           
+            titulo.innerHTML = `Que tal dar uma respirada?<br><strong class="app__title-strong">Faça uma pausa curta!</strong>`;
             desfocar();
             curtoBt.classList.add('active');
-            
-            contextoAtual='descanso-curto';
+
+            contextoAtual = 'descanso-curto';
             reiniciarTempoContexto();
             break;
         case 'descanso-longo':
-            titulo.innerHTML = `Hora de voltar à superfície.<br><strong class="app__title-strong">Faça uma pausa longa.</strong>`;           
+            titulo.innerHTML = `Hora de voltar à superfície.<br><strong class="app__title-strong">Faça uma pausa longa.</strong>`;
             desfocar();
             longoBt.classList.add('active');
-    
-            contextoAtual='descanso-longo';
+
+            contextoAtual = 'descanso-longo';
             reiniciarTempoContexto();
-            break;    
+            break;
         default:
             break;
     }
     zerar('Começar');
     mostraTempo();
-        
+
 }
 
 
-const contagemRegressiva = function(){
-    
-    if (tempoDecorrido==0){
+const contagemRegressiva = function () {
+
+    if (tempoDecorrido == 0) {
         clearInterval(intervaloID);
-        
+
         reiniciarTempoContexto();
 
-        musicaFocoInput.checked=false;
+        musicaFocoInput.checked = false;
         musica.pause();
         audioBeep.play();
-        
-        
+
+
         setTimeout(() => {
             zerar('Começar');
         }, 3000);
@@ -163,71 +163,82 @@ const contagemRegressiva = function(){
             mostraTempo();
         }, 3000);
 
-        
-             
+
+
         return;
-       
+
     }
-    tempoDecorrido -=1;
+    tempoDecorrido -= 1;
     mostraTempo();
-    
+
 }
 
 
-startPauseBT.addEventListener('click',iniciar);
+startPauseBT.addEventListener('click', iniciar);
 
-function iniciar(){
-    if (intervaloID==null){ 
+function iniciar() {
+    if (intervaloID == null) {
 
-        intervaloID = setInterval(contagemRegressiva,1000);
+        intervaloID = setInterval(contagemRegressiva, 1000);
         audioBeep.pause();
         audioPlay.play();
         iniciarOuPausarBT.innerHTML = "Pausar";
-    }else{
-        
+    } else {
+
         audioBeep.pause();
         audioPause.play();
-        
+
         zerar('Continuar');
-        
+
     }
 }
 
-function zerar(estado){
+function zerar(estado) {
     audioBeep.pause();
     clearInterval(intervaloID);
-    intervaloID=null;
+    intervaloID = null;
     iniciarOuPausarBT.textContent = estado;
 
 }
 
-function mostraTempo(){
+function mostraTempo() {
     divTimer.innerHTML = `${tempoDecorrido}`
 }
 
 
-function reiniciarTempoContexto(){
+function reiniciarTempoContexto() {
 
     switch (contextoAtual) {
         case "foco":
 
-            tempoDecorrido=10;
+            tempoDecorrido = 10;
             break;
         case 'descanso-curto':
 
-            tempoDecorrido=3;
+            tempoDecorrido = 3;
 
             break;
         case 'descanso-longo':
 
-            tempoDecorrido=25;
+            tempoDecorrido = 25;
 
-            break;    
+            break;
         default:
             break;
     }
 }
 
+function normalizar() {
+    startPauseBT.classList.remove('attention');
+}
+
+function alertar() {
+    startPauseBT.classList.add('attention');
+    audioPause.play();
+    setTimeout(() => {
+        normalizar();
+    }, 1000);
+}
 
 
 
