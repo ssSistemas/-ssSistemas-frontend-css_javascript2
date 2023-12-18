@@ -23,7 +23,9 @@
     box-sizing: border-box;
     max-width: 100%;
 }
-
+a{
+    color: var(--color-secondary);
+}
 html {
     background: var(--main-bg-color);
     min-height: 100vh;

@@ -11,7 +11,7 @@ const iniciarOuPausarBT = document.querySelector('#start-pause span');
 const divTimer = document.querySelector('#timer');
 
 let intervaloID = null;
-let tempoDecorrido = 10;
+let tempoDecorrido = 1500;
 var contextoAtual = 'foco';
 
 const musica = new Audio('sons/luna-rise-part-one.mp3');
@@ -202,7 +202,10 @@ function zerar(estado) {
 }
 
 function mostraTempo() {
-    divTimer.innerHTML = `${tempoDecorrido}`
+    const tempo = new Date(tempoDecorrido * 1000);
+    const tempoFormatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'})
+    divTimer.innerHTML = `${tempoFormatado}`
+
 }
 
 
@@ -211,16 +214,16 @@ function reiniciarTempoContexto() {
     switch (contextoAtual) {
         case "foco":
 
-            tempoDecorrido = 10;
+            tempoDecorrido = 1500;
             break;
         case 'descanso-curto':
 
-            tempoDecorrido = 3;
+            tempoDecorrido = 300;
 
             break;
         case 'descanso-longo':
 
-            tempoDecorrido = 25;
+            tempoDecorrido = 1800;
 
             break;
         default:
