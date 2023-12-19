@@ -157,11 +157,11 @@ const contagemRegressiva = function () {
 
         setTimeout(() => {
             zerar('Começar');
-        }, 3000);
+        }, 6000);
 
         setTimeout(() => {
             mostraTempo();
-        }, 3000);
+        }, 6000);
 
 
 
@@ -203,7 +203,7 @@ function zerar(estado) {
 
 function mostraTempo() {
     const tempo = new Date(tempoDecorrido * 1000);
-    const tempoFormatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'})
+    const tempoFormatado = tempo.toLocaleTimeString('pt-Br', { minute: '2-digit', second: '2-digit' })
     divTimer.innerHTML = `${tempoFormatado}`
 
 }
